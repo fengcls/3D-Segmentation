@@ -1,2 +1,4 @@
-# 3D-U-Net
-Implementation of 3D U-Net for volumetric segmentation
+# 3D-Segmentation
+Volumetric segmentation methods, including:
+
+3D-U-net
