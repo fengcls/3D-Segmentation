@@ -109,10 +109,10 @@ def upsampling_convtranspose(input, filter, pool_size, use_conv_transpose):
         up = UpSampling3D(size=pool_size)(input)
     return up
 
-def conv3d(first_channel_num, kernel_size = (3, 3, 3), bn_flag = False):
+def conv3d(channel_num, kernel_size = (3, 3, 3), bn_flag = False):
     def f(input):
         if bn_flag:
-            output = Conv3D(filters=first_channel_num, kernel_size = kernel_size, activation=None, padding='same')(input)
+            output = Conv3D(filters=channel_num, kernel_size = kernel_size, activation=None, padding='same')(input)
             output = BatchNormalization(axis=ch_axis, momentum=0.99, epsilon=0.001, center=True, scale=True,
                                     beta_initializer='zeros', gamma_initializer='ones', moving_mean_initializer='zeros',
                                     moving_variance_initializer='ones', beta_regularizer=None, gamma_regularizer=None,
@@ -121,7 +121,7 @@ def conv3d(first_channel_num, kernel_size = (3, 3, 3), bn_flag = False):
             output = Activation('relu')(output)
 
         else:
-            output = Conv3D(filters=first_channel_num, kernel_size=(3, 3, 3), activation='relu', padding='same')(input)
+            output = Conv3D(filters=channel_num, kernel_size=(3, 3, 3), activation='relu', padding='same')(input)
         return output
     return f
 
