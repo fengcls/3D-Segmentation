@@ -169,17 +169,15 @@ if __name__ == "__main__":
         'model_wmlseg_'+'sc_'+str(first_channel_num)+'_depth_'+str(depth)+'_ilr_'+str(initial_learning_rate)+'_{val_loss:.3f}'+model_suffix+'.hdf5',
         monitor='val_loss', save_best_only=True)
 
-    x_array = []
-    y_array = []
+    x = []
+    y = []
     for k in range(1,20): # 19 training data
         fl_img = data_path+'ISBI2015_Challenge_atlases/atlas_with_mask1/atlas'+str(k)+'_FL.nii.gz'
         mask_img = data_path+'ISBI2015_Challenge_atlases/atlas_with_mask1/atlas'+str(k)+'_mask.nii.gz'
-        x_array.append(np.expand_dims(nib.load(fl_img).get_data()[3:179, 1:217, 3:179],0))
-        y_array.append(np.expand_dims(nib.load(mask_img).get_data()[3:179, 1:217, 3:179],0))
-    x = np.stack(x_array)
-    del x_array
-    y = np.stack(y_array)
-    del y_array
+        x.append(np.expand_dims(nib.load(fl_img).get_data()[3:179, 1:217, 3:179],0))
+        y.append(np.expand_dims(nib.load(mask_img).get_data()[3:179, 1:217, 3:179],0))
+    x = np.stack(x)
+    y = np.stack(y)
     
     for kepoch in range(100):
         model.fit(x, y, validation_data=[x_val,y_val],callbacks=[model_checkpoint], batch_size = 1)
